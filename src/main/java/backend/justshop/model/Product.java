@@ -1,10 +1,7 @@
 package backend.justshop.model;
 
 import backend.justshop.enumeration.ProductCategory;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
@@ -20,6 +17,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Entity
 @EqualsAndHashCode
 @NoArgsConstructor
+@AllArgsConstructor
 public class Product{
 
     @Id
