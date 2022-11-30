@@ -10,10 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -25,13 +22,38 @@ public class ProductController {
     private final ProductService productService;
     private final UserService userService;
 
+    //TODO: zmienis poniezj USER na ADMIN pod koniec
     @PostMapping(path = "/add")
-    public ResponseEntity<Product> addProduct(@RequestBody Product product, HttpServletRequest request){
+    public ResponseEntity<Product> addProduct(@RequestBody Product product){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if(auth != null && auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("USER"))) {
             Product newProduct = productService.create(product);
             return new ResponseEntity<>(newProduct, HttpStatus.CREATED);
         }else {
+            throw new IllegalStateException("user role is not admin");
+        }
+    }
+
+    @PutMapping(path = "/update")
+    public ResponseEntity<Product> updateProduct(@RequestBody Product product){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if(auth != null && auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("USER"))){
+            Product updateProduct = productService.update(product);
+            return new ResponseEntity<>(updateProduct, HttpStatus.OK);
+        }
+        else {
+            throw new IllegalStateException("user role is not admin");
+        }
+    }
+
+    @DeleteMapping(path = "/delete/{id}")
+    public ResponseEntity<?> deleteProduct(@PathVariable("id") Long id){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if(auth != null && auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("USER"))){
+            productService.delete(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        else {
             throw new IllegalStateException("user role is not admin");
         }
     }

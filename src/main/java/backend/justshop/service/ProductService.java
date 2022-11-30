@@ -21,9 +21,16 @@ public class ProductService {
 
      public Product create(Product product) {
         log.info("Saving new product: {}", product.getProductName());
-        product.setProductName(product.getProductName());
         product.setImageUrl(setProductImageUrl());
         return productRepository.save(product);
+    }
+
+    public Product update(Product product){
+         return productRepository.save(product);
+    }
+
+    public void delete(Long id){
+         productRepository.deleteById(id);
     }
 
     private String setProductImageUrl() {
