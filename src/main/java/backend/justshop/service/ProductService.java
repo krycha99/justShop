@@ -5,7 +5,10 @@ import backend.justshop.repository.ProductRepository;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +21,11 @@ import java.util.Collection;
 public class ProductService {
 
     private final ProductRepository productRepository;
+
+    public Product findProductById(Long id){
+        return productRepository.findProductById(id)
+                .orElseThrow(() -> new IllegalStateException("Product by id " + id + "was not found"));
+    }
 
      public Product create(Product product) {
         log.info("Saving new product: {}", product.getProductName());

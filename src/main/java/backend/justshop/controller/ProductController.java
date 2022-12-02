@@ -1,5 +1,6 @@
 package backend.justshop.controller;
 
+import backend.justshop.model.Cart;
 import backend.justshop.model.Product;
 import backend.justshop.service.ProductService;
 import backend.justshop.user.UserService;
