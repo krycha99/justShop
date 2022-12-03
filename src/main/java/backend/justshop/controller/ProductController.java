@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @RestController
 @RequestMapping(path = "/api/v1/assortment")
@@ -33,6 +34,17 @@ public class ProductController {
         }else {
             throw new IllegalStateException("user role is not admin");
         }
+    }
+    @GetMapping("/all")
+    public ResponseEntity<List<Product>> getAllProducts() {
+        List<Product> products = productService.findAllProducts();
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
+
+    @GetMapping("/find/{id}")
+    public ResponseEntity<Product> getProductById(@PathVariable("id") Long id) {
+        Product product = productService.findProductById(id);
+        return new ResponseEntity<>(product, HttpStatus.OK);
     }
 
     @PutMapping(path = "/update")

@@ -39,5 +39,10 @@ public class CartService {
 
     }
 
+    public void clearCart(Long id){
+        cartRepository.clearCart(id);
+
+    }
+
 
 }

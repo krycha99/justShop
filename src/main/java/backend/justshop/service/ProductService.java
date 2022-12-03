@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -25,6 +26,10 @@ public class ProductService {
     public Product findProductById(Long id){
         return productRepository.findProductById(id)
                 .orElseThrow(() -> new IllegalStateException("Product by id " + id + "was not found"));
+    }
+
+    public List<Product> findAllProducts(){
+        return productRepository.findAll();
     }
 
      public Product create(Product product) {
